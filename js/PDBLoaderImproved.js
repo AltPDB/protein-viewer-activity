@@ -327,7 +327,7 @@ catch(e){
 				* Generate atom balls
 				*/
 				var atom = molecule.atoms[i];
-				var atomSeqRes = atom.seqRes;
+				var atomResSeq = atom.resSeq;
 				var atomChainID = atom.chainID;
 				var e = atom.element.toLowerCase();
 				var atomCovalentRadius = covalentRadius[e];
@@ -369,9 +369,10 @@ catch(e){
 				// look ahead for any atoms that are nearby
 				for(var j=i+1; j<molecule.atoms.length; j++)
 				{
-					// don't bond to other chains
+					// don't bond to other chains or residues
 					var neighbor = molecule.atoms[j];
-					if(neighbor.chainID !== atomChainID) { continue; }
+					//if((neighbor.chainID !== atomChainID) || (neighbor.resSeq !== atomResSeq)) { continue; }
+					if(neighbor.resSeq - atomResSeq > 1) { continue; }
 
 					// get distance between atoms, compared to covalent radii
 					var dist = mesh.position.distanceToSquared(neighbor);
