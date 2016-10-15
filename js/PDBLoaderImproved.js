@@ -42,6 +42,7 @@ catch(e){
 		PHE: 0x3232aa, TYR: 0x3232aa, // mid blue
 		ASN: 0x00dcdc, GLN: 0x00dcdc, // cyan
 		GLY: 0xebebeb, // light grey
+		//GLY: 0x000000, // black - for testing
 		LEU: 0x0f820f, VAL: 0x0f820f, ILE: 0x0f820f, // green
 		ALA: 0xc8c8c8, // dark grey
 		TRP: 0xb45ab4, // pink
@@ -316,7 +317,7 @@ catch(e){
 
 			var stickGeometry = new THREE.CylinderGeometry(0.07, 0.07, 1, 3, 1, true);
 			stickGeometry.rotateX(Math.PI/2);
-			var ballGeometry = new THREE.BoxGeometry(0.3,0.3,0.3);
+			var ballGeometry = new THREE.BoxGeometry(0.2,0.2,0.2);
 			var neighborPosition = new THREE.Vector3();
 
 
