@@ -128,7 +128,7 @@
 		</div>
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
 			<span>Protein Data Bank ID: </span>
-			<input name='mol' type='text'></input>
+			<input name='mol' type='text' value='5B32'></input>
 			<input type='submit' value='Go'></input>
 		</form>
 		<div class='bar'>
@@ -136,7 +136,7 @@
 			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
 			<a href='javascript:;' onclick='return toggleOptions("noball");' class='item' id='ball'>Atom</a>
 			|
-			Color:
+			Color by:
 			<a href='javascript:;' onclick='return toggleOptions("color","residue");' class='item' id='residue'>AminoAcids</a>
 			<a href='javascript:;' onclick='return toggleOptions("color","structure");' class='item' id='structure'>Sub-Structures</a>
 			<a href='javascript:;' onclick='return toggleOptions("color","chain");' class='item' id='chain'>Chains</a>
