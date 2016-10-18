@@ -42,7 +42,6 @@ catch(e){
 		PHE: 0x3232aa, TYR: 0x3232aa, // mid blue
 		ASN: 0x00dcdc, GLN: 0x00dcdc, // cyan
 		GLY: 0xebebeb, // light grey
-		//GLY: 0x000000, // black - for testing
 		LEU: 0x0f820f, VAL: 0x0f820f, ILE: 0x0f820f, // green
 		ALA: 0xc8c8c8, // dark grey
 		TRP: 0xb45ab4, // pink
@@ -304,7 +303,7 @@ catch(e){
 			options.colorScheme = ['residue','structure','chain','none'].indexOf(options.colorScheme) > -1 ? options.colorScheme : 'none';
 
 			if(molecule.atoms.length > options.atomCutoff){
-				console.error(molecule.atoms.length+' atoms is too large to render, aborting.');
+				console.error(molecule.atoms.length+' Molecule is too large to render, aborting.');
 				return;
 			}
 
@@ -370,9 +369,8 @@ catch(e){
 				// look ahead for any atoms that are nearby
 				for(var j=i+1; j<molecule.atoms.length; j++)
 				{
-					// don't bond to other chains or residues
+					// don't bond to other residues
 					var neighbor = molecule.atoms[j];
-					//if((neighbor.chainID !== atomChainID) || (neighbor.resSeq !== atomResSeq)) { continue; }
 					if(neighbor.resSeq - atomResSeq > 1) { continue; }
 
 					// get distance between atoms, compared to covalent radii

@@ -29,7 +29,7 @@ async.parallel(
 
 function loadModel(done)
 {
-	// these should be only those molecules that
+	// these should be only those molecules that are stored locally in the project Models directory
 	var defaultTransform = {
 		'2VAA': new THREE.Matrix4().fromArray([0.025214113295078278, 0, 0, 0, 0, -5.5986578251406355e-18, 0.025214113295078278, 0, 0, -0.025214113295078278, -5.5986578251406355e-18, 0, 0, 0, 0.800000011920929, 1]),
 		'3UTQ': new THREE.Matrix4().fromArray([0.01705673336982727, 5.356129710311007e-18, 0.01705673336982727, 0, -0.01705673336982727, 2.41829112290759e-10, 0.01705673336982727, 0, 0, -0.02412186563014984, 2.418291400463346e-10, 0, 0, 0, 1, 1]),
