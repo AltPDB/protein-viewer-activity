@@ -2,6 +2,13 @@
 <html>
 	<head>
 		<title>Protein Viewer - AltPDB</title>
+		<script src="//console.re/connector.js" data-channel="db0f-ae92-0e38" id="consolerescript"></script>
+		<script>
+			window.addEventListener('error', function (err) {
+					console.re.error(err);
+			});
+		</script>
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
@@ -123,7 +130,7 @@
 			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>1J8H</a>
 			<a href='?molecule=1AQD' onclick='return toggleOptions("molecule","1AQD");' class='item' id='1AQD'>1AQD</a>
 			<a href='?molecule=2WBJ' onclick='return toggleOptions("molecule","2WBJ");' class='item' id='2WBJ'>2WBJ</a>
-			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>Load_from_PDB</a>
+			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>Load from PDB</a>
 
 		</div>
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
@@ -147,5 +154,6 @@
 			<h1>Loading...</h1>
 		</div>
 		<script src="js/present-model.js"></script>
+		<script src="js/threejs-buttons.js"></script>
 	</body>
 </html>
