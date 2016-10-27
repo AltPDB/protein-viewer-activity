@@ -5,6 +5,7 @@
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
+		<script src="//cdn.rawgit.com/niklasvh/html2canvas/v0.5.0-beta4/dist/html2canvas.min.js"></script>
 		<script src="lib/glTF-loader.js"></script>
 		<script src="js/PDBLoaderImproved.js"></script>
 		<script src="js/utils.js"></script>
@@ -45,6 +46,21 @@
 				position: absolute;
 				top: 0; left: 0;
 				z-index: -1;
+			}
+
+			body {
+				overflow: hidden;
+			}
+
+			.info {
+				padding: 10px;
+				font-size: 20px;
+				background-color: black;
+				color: white;
+				width: 300px;
+				height: 400px;
+				position: absolute;
+				top: 9999px;
 			}
 		</style>
 
@@ -144,6 +160,14 @@
 			<img src='img/benzene-small.gif' alt='Loading'/>
 			<h1>Loading...</h1>
 		</div>
+		<div id='2VAA-info' class='info'>
+			<h1>2VAA</h1>
+			Antigen presentation describes a vital immune process.
+			Immune cells cannot penetrate other cells, which may be infected with viruses or bacteria,
+			and thus rely on information conveyed by fragments of intracellular components being
+			presented on major histocompatibility complex (MHC) molecules on the cell surface.
+		</div>
 		<script src="js/present-model.js"></script>
+		<script src="js/present-info.js"></script>
 	</body>
 </html>
