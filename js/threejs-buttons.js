@@ -2,12 +2,7 @@
 (function () {
 'use strict'
 
-if (!altspace.inClient) {
-	console.re.log('not in client');
-	return; }
-	else {
-	console.re.log('in client');
-	}
+if (!altspace.inClient) { return; }
 
 var zoomFactor = 1.25;
 var clickablesRoot = new THREE.Group();
