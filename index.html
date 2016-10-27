@@ -16,6 +16,19 @@
 				background-color: black;
 				font-size: 24px;
 				font-weight: bold;
+				display: none;
+			}
+
+			.initialized .bar {
+				display: block;
+			}
+
+			#other {
+				display: none;
+			}
+
+			.isModerator #other {
+				display: inline;
 			}
 
 			.item {
@@ -149,5 +162,14 @@
 		</div>
 		<script src="js/present-model.js"></script>
 		<script src="js/threejs-buttons.js"></script>
+		<script>
+			if (altspace.getUser) {
+				altspace.getUser().then(function (user) {
+					if (user.isModerator) { $(document.body).addClass('isModerator'); }
+					$(document.body).addClass('initialized');
+					addThreeJsButtons(user);
+				}).catch(function (error) { console.error(error); });
+			}
+		</script>
 	</body>
 </html>
