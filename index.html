@@ -54,11 +54,11 @@
 
 			.info {
 				padding: 10px;
-				font-size: 16px;
+				font-size: 20px;
 				background-color: black;
 				color: white;
-				width: 300px;
-				height: 400px;
+				width: 450px;
+				height: 600px;
 				position: absolute;
 				top: 9999px;
 			}
@@ -132,14 +132,14 @@
 	</head>
 	<body>
 		<div class='bar'>
-			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>Example: Antigen Presenting Complex (2VAA)</a><br>
+			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>Example: Adaptive MHC Class I (2VAA) with virus fragment being held between helixes</a><br>
 			<!-- <a href='?molecule=3UTQ' onclick='return toggleOptions("molecule","3UTQ");' class='item' id='3UTQ'>3UTQ</a> -->
 			<!-- <a href='?molecule=4X5W' onclick='return toggleOptions("molecule","4X5W");' class='item' id='4X5W'>4X5W</a> -->
-			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>Example: Antigen Presenting Complex with T-Cell Receptor (1J8H)</a><br>
-			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>Example: Toll-like Receptor (3WPG)</a><br>
+			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>Example: Adaptive MHC Class II Antigen Presenting Complex with virus fragment and T-Cell Receptor (1J8H)</a><br>
+			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>Example: Innate Toll-like Receptor with DNA fragment being recognized (3WPG)</a><br>
 			<!-- <a href='?molecule=1AQD' onclick='return toggleOptions("molecule","1AQD");' class='item' id='1AQD'>1AQD</a>  -->
 			<!-- <a href='?molecule=2WBJ' onclick='return toggleOptions("molecule","2WBJ");' class='item' id='2WBJ'>2WBJ</a> -->
-			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbspor Load Directly from Protein Data Bank</a>
+			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbsp or click <u>here</u> to load directly from Protein Data Bank (Look up 4 character PDB ID with the search box on the web page behind you.)</a>
 
 		</div>
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
@@ -150,6 +150,7 @@
 		<div class='bar'>
 			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
 			<a href='javascript:;' onclick='return toggleOptions("noball");' class='item' id='ball'>Atom</a>
+			|
 			Color bonds by:
 			<a href='javascript:;' onclick='return toggleOptions("color");' class='item' id='nocolor'>None</a>
 			<a href='javascript:;' onclick='return toggleOptions("color","chain");' class='item' id='chain'>Chains</a>
@@ -161,11 +162,17 @@
 			<h1>Loading...</h1>
 		</div>
 		<div id='2VAA-info' class='info'>
-			<h1>2VAA</h1>
-			Antigen presentation describes a vital immune process.
-			Immune cells cannot penetrate other cells, which may be infected with viruses or bacteria,
-			and thus rely on information conveyed by fragments of intracellular components being
-			presented on major histocompatibility complex (MHC) molecules on the cell surface.
+			<h1>Antigen Presentation</h1>
+			A vital process of the human immune system.<br><br>
+			Cells which may be infected with viruses or bacteria present protein fragments (peptides)
+			from the virus or bacteria on the surface of the cell via special protein structures called
+			major histocompatibility complexes (MHC). The examples in menu above will show you
+			some MHC proteins and other related immune system molecules. Imagine the floor is the surface of the 
+			infected cell, and the MHC is holding up the viral fragment to be "inspected" by a Killer T-Cell coming
+			down from above. <br>
+			Click on Ribbon to see the overall structure of the protein, and Atom to see the atoms and bonds.<br>
+			Clicking on the color selector highlights different aspects of the protein structure.<br>
+			Take the time to look closely.
 		</div>
 		<script src="js/present-model.js"></script>
 		<script src="js/present-info.js"></script>
