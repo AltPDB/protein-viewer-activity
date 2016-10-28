@@ -83,7 +83,7 @@ function loadModel(done)
 			if(localModels.indexOf(molId) !== -1)
 				var url = 'models/pdb/'+molId+'.pdb';
 			else
-				var url = 'https://files.rcsb.org/download/'+molId+'.pdb';
+				var url = 'http://files.rcsb.org/download/'+molId+'.pdb';
 
 			var loader = new THREE.PDBLoader();
 			loader.load(url, {colorScheme: colorMatch && colorMatch[1]}, function(model)
