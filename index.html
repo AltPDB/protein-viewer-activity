@@ -6,6 +6,7 @@
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
+		<script src="//cdn.rawgit.com/niklasvh/html2canvas/v0.5.0-beta4/dist/html2canvas.min.js"></script>
 		<script src="lib/glTF-loader.js"></script>
 		<script src="js/PDBLoaderImproved.js"></script>
 		<script src="js/utils.js"></script>
@@ -14,7 +15,7 @@
 			.bar {
 				color: white;
 				background-color: black;
-				font-size: 18px;
+				font-size: 16px;
 				font-weight: bold;
 				display: none;
 			}
@@ -27,7 +28,7 @@
 				display: none;
 			}
 
-			.isModerator #other {
+			.isDesktop.isModerator #other {
 				display: inline;
 			}
 
@@ -46,7 +47,7 @@
 			}
 
 			h1 {
-				color: white;
+				color: black;
 			}
 
 			form, form > input {
@@ -59,6 +60,22 @@
 				position: absolute;
 				top: 0; left: 0;
 				z-index: -1;
+			}
+
+			body {
+				overflow: hidden;
+				font: 12pt sans-serif;
+			}
+
+			.info {
+				padding: 10px;
+				font-size: 20px;
+				background-color: lightblue;
+				color: black;
+				width: 600px;
+				height: 900px;
+				position: absolute;
+				top: 9999px;
 			}
 		</style>
 
@@ -130,14 +147,14 @@
 	</head>
 	<body>
 		<div class='bar'>
-			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>2VAA</a>
-			<a href='?molecule=3UTQ' onclick='return toggleOptions("molecule","3UTQ");' class='item' id='3UTQ'>3UTQ</a>
-			<a href='?molecule=4X5W' onclick='return toggleOptions("molecule","4X5W");' class='item' id='4X5W'>4X5W</a>
-			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>3WPG</a>
-			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>1J8H</a>
-			<a href='?molecule=1AQD' onclick='return toggleOptions("molecule","1AQD");' class='item' id='1AQD'>1AQD</a>
-			<a href='?molecule=2WBJ' onclick='return toggleOptions("molecule","2WBJ");' class='item' id='2WBJ'>2WBJ</a>
-			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>Load from PDB</a>
+			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>Example: MHC Class I with virus fragment being held between helixes (PDB=2VAA)</a><br>
+			<!-- <a href='?molecule=3UTQ' onclick='return toggleOptions("molecule","3UTQ");' class='item' id='3UTQ'>3UTQ</a> -->
+			<!-- <a href='?molecule=4X5W' onclick='return toggleOptions("molecule","4X5W");' class='item' id='4X5W'>4X5W</a> -->
+			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>Example: MHC Class II Antigen Presenting Complex with virus fragment and T-Cell Receptor (PDB=1J8H)</a><br>
+			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>Example: Innate (TLR) with DNA fragment being recognized (PDB=3WPG)</a><br>
+			<!-- <a href='?molecule=1AQD' onclick='return toggleOptions("molecule","1AQD");' class='item' id='1AQD'>1AQD</a>  -->
+			<!-- <a href='?molecule=2WBJ' onclick='return toggleOptions("molecule","2WBJ");' class='item' id='2WBJ'>2WBJ</a> -->
+			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbsp View other proteins using the 4 character PDB ID</a>
 
 		</div>
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
@@ -148,8 +165,8 @@
 		|
 		<div class='bar'>
 			Show:
-			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbons</a>
-			<a href='javascript:;' onclick='return toggleOptions("noball");' class='item' id='ball'>Atoms</a>
+			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
+			<a href='javascript:;' onclick='return toggleOptions("noball");' class='item' id='ball'>Atom</a>
 			|
 			Color bonds by:
 			<a href='javascript:;' onclick='return toggleOptions("color");' class='item' id='nocolor'>None</a>
@@ -161,14 +178,34 @@
 			<img src='img/benzene-small.gif' alt='Loading'/>
 			<h1>Loading...</h1>
 		</div>
+		<div id='2VAA-info' class='info'>
+			<h1>Your Immune System<h1>
+			<h2>Key cellular components</h2>
+			<p></p>
+			<!-- <img src="img/ImmuneResponse.png" alt="Immune Response Cartoon" style="width:600px;height:600px;"> -->
+			<img src="img/Dendritic Cell presenting antigen.png" style="width:600px;height:600px;">
+		</div>
 		<script src="js/present-model.js"></script>
+		<script src="js/present-info.js"></script>
+		<script src="js/pdb-popup.js"></script>
 		<script src="js/threejs-buttons.js"></script>
 		<script>
 			if (altspace.getUser) {
 				altspace.getUser().then(function (user) {
-					if (user.isModerator) { $(document.body).addClass('isModerator'); }
-					$(document.body).addClass('initialized');
-					addThreeJsButtons(user);
+					var $body = $(document.body);
+					user = {isModerator: true};
+					if (user.isModerator) { $body.addClass('isModerator'); }
+					var isAndroid = false || /mobile/i.test(navigator.userAgent);
+					if (isAndroid) {
+						$body.addClass('isAndroid');
+					}
+					else {
+						$body.addClass('isDesktop');
+					}
+					$body.addClass('initialized');
+					addThreeJsButtons(user, isAndroid);
+					addInfoImage();
+					addPdbPopup(user, isAndroid);
 				}).catch(function (error) { console.error(error); });
 			}
 		</script>

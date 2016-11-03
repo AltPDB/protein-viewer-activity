@@ -1,11 +1,9 @@
 /* global scene */
 'use strict'
 
-function addThreeJsButtons(user) {
+function addThreeJsButtons(user, isAndroid) {
 	if (!altspace.inClient) { return; }
-
 	if (!user.isModerator) { return; }
-	var isAndroid = /mobile/i.test(navigator.userAgent);
 
 	var zoomFactor = isAndroid ? 1 : 1.25;
 	var clickablesRoot = new THREE.Group();
@@ -38,9 +36,11 @@ function addThreeJsButtons(user) {
 	}
 
 	function reScaleAndPositionClickables() {
-		clickables.forEach(function (clickable) {
-			scaleAndPositionClickable(clickable.mesh, clickable.el);
-		});
+		setTimeout(function () {
+			clickables.forEach(function (clickable) {
+				scaleAndPositionClickable(clickable.mesh, clickable.el);
+			});
+		}, 50);
 	}
 
 	$('[onclick], input').each(function () {
@@ -54,6 +54,7 @@ function addThreeJsButtons(user) {
 		mesh.addEventListener('cursorup', function () {
 			var el = $el[0];
 			if (el.onclick) { el.onclick(); }
+			else { el.click(); }
 			if (el.select) { el.select(); }
 			$el.focus();
 			reScaleAndPositionClickables();
