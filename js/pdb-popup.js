@@ -1,4 +1,5 @@
 function addPdbPopup(user, isAndroid) {
+	if (isAndroid) { return; }
 	function getFullUrl(path) {
 		var currPath = location.pathname;
 		if (!currPath.endsWith('/')) {
