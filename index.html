@@ -193,9 +193,8 @@
 			if (altspace.getUser) {
 				altspace.getUser().then(function (user) {
 					var $body = $(document.body);
-					user = {isModerator: true};
 					if (user.isModerator) { $body.addClass('isModerator'); }
-					var isAndroid = false || /mobile/i.test(navigator.userAgent);
+					var isAndroid = /mobile/i.test(navigator.userAgent);
 					if (isAndroid) {
 						$body.addClass('isAndroid');
 					}
