@@ -33,14 +33,13 @@
 				sim = new altspace.utilities.Simulation();
 				sim.scene.addBehavior(new altspace.utilities.behaviors.SceneSync(instanceRef));
 				var loader = new THREE.TextureLoader();
-				var buttonGeo = new THREE.BoxGeometry(100, 100, 10);
+				var buttonGeo = new THREE.BoxGeometry(150, 150, 10);
 
 				playButton = new THREE.Mesh(
 					buttonGeo,
 					new THREE.MeshBasicMaterial({map: loader.load('img/play.png')})
 				);
 				playButton.visible = false;
-				playButton.position.set(-550, -300, 0);
 				sim.scene.add(playButton);
 				playButton.addEventListener('cursordown', function () {
 					playerStateRef.update({playing: true, currentTime: player.getCurrentTime()});
@@ -50,7 +49,7 @@
 					buttonGeo,
 					new THREE.MeshBasicMaterial({map: loader.load('img/pause.png')})
 				);
-				pauseButton.position.set(-550, -300, 0);
+				pauseButton.position.set(-525, -275, 0);
 				pauseButton.visible = false;
 				sim.scene.add(pauseButton);
 				pauseButton.addEventListener('cursordown', function () {
@@ -75,6 +74,7 @@
 					}
 					pauseButton.visible = playerState.playing;
 					playButton.visible = !playerState.playing;
+					playButton.position.set(-525, -275, 0);
 				});
 			}
 			function syncPlaybackPeriodically() {
