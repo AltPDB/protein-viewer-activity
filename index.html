@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title>Protein Viewer - AltPDB</title>
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
-		<script src="//cdn.rawgit.com/niklasvh/html2canvas/v0.5.0-beta4/dist/html2canvas.min.js"></script>
 		<script src="lib/glTF-loader.js"></script>
 		<script src="js/PDBLoaderImproved.js"></script>
 		<script src="js/utils.js"></script>
@@ -16,6 +16,19 @@
 				background-color: black;
 				font-size: 16px;
 				font-weight: bold;
+				display: none;
+			}
+
+			.initialized .bar {
+				display: block;
+			}
+
+			#other {
+				display: none;
+			}
+
+			.isDesktop.isModerator #other {
+				display: inline;
 			}
 
 			.item {
@@ -50,6 +63,7 @@
 
 			body {
 				overflow: hidden;
+				font: 12pt sans-serif;
 			}
 
 			.info {
@@ -147,6 +161,7 @@
 			<input name='mol' type='text' value='5B32'></input>
 			<input type='submit' value='Go'></input>
 		</form>
+		|
 		<div class='bar'>
 			Show:
 			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
@@ -171,5 +186,26 @@
 		</div>
 		<script src="js/present-model.js"></script>
 		<script src="js/present-info.js"></script>
+		<script src="js/pdb-popup.js"></script>
+		<script src="js/threejs-buttons.js"></script>
+		<script>
+			if (altspace.getUser) {
+				altspace.getUser().then(function (user) {
+					var $body = $(document.body);
+					if (user.isModerator) { $body.addClass('isModerator'); }
+					var isAndroid = /mobile/i.test(navigator.userAgent);
+					if (isAndroid) {
+						$body.addClass('isAndroid');
+					}
+					else {
+						$body.addClass('isDesktop');
+					}
+					$body.addClass('initialized');
+					addThreeJsButtons(user, isAndroid);
+					addInfoImage();
+					addPdbPopup(user, isAndroid);
+				}).catch(function (error) { console.error(error); });
+			}
+		</script>
 	</body>
 </html>

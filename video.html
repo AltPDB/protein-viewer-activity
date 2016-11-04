@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>AltPDB - Protein Viewer Activity - Video</title>
+		<style>
+			html, body, #player {
+				width: 100%;
+				height: 100%;
+			}
+			html, body {
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="player"></div>
+		<script src="//www.youtube.com/iframe_api"></script>
+		<script src="lib/three.r74.min.js"></script>
+		<script src="lib/altspace-0.16.0.min.js"></script>
+		<script>
+			var SEEK_SYNC_THRESHOLD = 3;
+			var player;
+			var playButton;
+			var pauseButton;
+			var playerStateRef;
+			var instanceRef;
+			var playerState;
+			var sim;
+			var user;
+			function addControlUI () {
+				sim = new altspace.utilities.Simulation();
+				sim.scene.addBehavior(new altspace.utilities.behaviors.SceneSync(instanceRef));
+				var loader = new THREE.TextureLoader();
+				var buttonGeo = new THREE.BoxGeometry(150, 150, 10);
+
+				playButton = new THREE.Mesh(
+					buttonGeo,
+					new THREE.MeshBasicMaterial({map: loader.load('img/play.png')})
+				);
+				playButton.visible = false;
+				sim.scene.add(playButton);
+				playButton.addEventListener('cursordown', function () {
+					playerStateRef.update({playing: true, currentTime: player.getCurrentTime()});
+				});
+
+				pauseButton = new THREE.Mesh(
+					buttonGeo,
+					new THREE.MeshBasicMaterial({map: loader.load('img/pause.png')})
+				);
+				pauseButton.position.set(-525, -275, 0);
+				pauseButton.visible = false;
+				sim.scene.add(pauseButton);
+				pauseButton.addEventListener('cursordown', function () {
+					playerStateRef.update({playing: false, currentTime: player.getCurrentTime()});
+				});
+			}
+			function setupFirebaseControl() {
+				playerStateRef.on('value', function (snapshot) {
+					playerState = snapshot.val();
+					if (!playerState) {
+						playButton.visible = true;
+						return;
+					}
+					if (Math.abs(player.getCurrentTime() - playerState.currentTime) > SEEK_SYNC_THRESHOLD) {
+						player.seekTo(playerState.currentTime);
+					}
+					if (playerState.playing) {
+						player.playVideo();
+					}
+					else {
+						player.pauseVideo();
+					}
+					pauseButton.visible = playerState.playing;
+					playButton.visible = !playerState.playing;
+					playButton.position.set(-525, -275, 0);
+				});
+			}
+			function syncPlaybackPeriodically() {
+				setInterval(function () {
+					var sceneSync = sim.scene.getBehaviorByType('SceneSync');
+					if (playerStateRef && playerState && playerState.playing && sceneSync.isMasterClient) {
+						playerStateRef.update({currentTime: player.getCurrentTime()});
+					}
+				}, 2000);
+			}
+			function setupControls() {
+				if (user.isModerator) {
+					addControlUI();
+					syncPlaybackPeriodically();
+				}
+				setupFirebaseControl();
+			}
+			function setupPlayer(connection) {
+				if (!location.search) { return; }
+				instanceRef = connection.instance;
+				playerStateRef = connection.instance.child('playerState');
+				player = new YT.Player(
+					'player', {
+						videoId: 'VPvCekgPwRI',
+						events: { onReady: setupControls }
+					}
+				);
+			}
+			function setupSync(_user) {
+				user = _user;
+				altspace.utilities.sync.connect({
+					appId: 'protein-viewer-activity-video',
+					authorId: 'altpdb'
+				}).then(setupPlayer);
+
+			}
+			function onYouTubeIframeAPIReady() {
+				if (altspace.getUser) {
+					altspace.getUser().then(setupSync);
+				}
+				else {
+					setupSync({isModerator: false});
+				}
+			}
+		</script>
+	</body>
+</html>
