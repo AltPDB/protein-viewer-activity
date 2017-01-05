@@ -1,6 +1,6 @@
 function addInfoImage() {
 	var loader = new THREE.TextureLoader();
-	var pixels = 1/root.scale.x;
+	var pixels = 1/250;
 	var info = new THREE.Mesh(
 		new THREE.PlaneGeometry(1, 1),
 		new THREE.MeshBasicMaterial({map: loader.load('img/cellular-concepts.png')})

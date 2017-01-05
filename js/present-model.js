@@ -219,11 +219,17 @@ function setupEnclosure(done)
 {
 	if(altspace.inClient)
 	{
-		altspace.getEnclosure().then(function(e){
-			root.position.setY(-e.innerHeight/2);
-			root.scale.multiplyScalar(e.pixelsPerMeter);
-			root.rotation.set( -Math.PI/2, 0, 0 );
-			done(e.innerDepth===1);
+		altspace.getEnclosure().then(function(enclosure){
+			enclosure.requestFullspace().then(function () {;
+				altspace.getDocument().then(function (document) {
+					document.scale.set(1, 1, 1);
+					document.position.set(4.5, 1.7, -8.5);
+					root.position.set(4.5, 0, -8.5);
+					root.scale.multiplyScalar(enclosure.pixelsPerMeter);
+					root.rotation.set( -Math.PI/2, 0, 0 );
+					done(enclosure.innerDepth===1);
+				});
+			});
 		});
 	}
 	else {

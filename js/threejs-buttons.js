@@ -7,10 +7,8 @@ function addThreeJsButtons(user, isAndroid) {
 
 	var zoomFactor = isAndroid ? 1 : 1.25;
 	var clickablesRoot = new THREE.Group();
-	altspace.getEnclosure().then(function (enclosure) {
-		clickablesRoot.position.x = -enclosure.innerWidth / 2;
-		clickablesRoot.position.y = enclosure.innerHeight / 2;
-	});
+	clickablesRoot.scale.multiplyScalar(1/250);
+	clickablesRoot.position.set(1.95, 3.15, -8.5);
 	scene.add(clickablesRoot);
 
 	var clickableGeo = new THREE.PlaneGeometry(1, 1, 1);
