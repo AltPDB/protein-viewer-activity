@@ -86,6 +86,7 @@
 				}, 2000);
 			}
 			function setupControls() {
+				console.log('BPDEBUG setupControls');
 				if (user.isModerator) {
 					addControlUI();
 					syncPlaybackPeriodically();
@@ -93,7 +94,9 @@
 				setupFirebaseControl();
 			}
 			function setupPlayer(connection) {
+				console.log('BPDEBUG setupPlayer');
 				if (!location.search) { return; }
+				console.log('BPDEBUG setupPlayer synced');
 				instanceRef = connection.instance;
 				playerStateRef = connection.instance.child('playerState');
 				player = new YT.Player(
@@ -104,6 +107,7 @@
 				);
 			}
 			function setupSync(_user) {
+				console.log('BPDEBUG setupSync ' + _user);
 				user = _user;
 				altspace.utilities.sync.connect({
 					appId: 'protein-viewer-activity-video',
@@ -112,6 +116,7 @@
 
 			}
 			function onYouTubeIframeAPIReady() {
+				console.log('BPDEBUG onYouTubeIframeAPIReady');
 				if (altspace.getUser) {
 					altspace.getUser().then(setupSync);
 				}
