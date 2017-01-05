@@ -16,7 +16,6 @@
 	</head>
 	<body>
 		<div id="player"></div>
-		<script src="//www.youtube.com/iframe_api"></script>
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script>
@@ -86,7 +85,6 @@
 				}, 2000);
 			}
 			function setupControls() {
-				console.log('BPDEBUG setupControls');
 				if (user.isModerator) {
 					addControlUI();
 					syncPlaybackPeriodically();
@@ -94,9 +92,7 @@
 				setupFirebaseControl();
 			}
 			function setupPlayer(connection) {
-				console.log('BPDEBUG setupPlayer');
 				if (!location.search) { return; }
-				console.log('BPDEBUG setupPlayer synced');
 				instanceRef = connection.instance;
 				playerStateRef = connection.instance.child('playerState');
 				player = new YT.Player(
@@ -107,7 +103,6 @@
 				);
 			}
 			function setupSync(_user) {
-				console.log('BPDEBUG setupSync ' + _user);
 				user = _user;
 				altspace.utilities.sync.connect({
 					appId: 'protein-viewer-activity-video',
@@ -116,7 +111,6 @@
 
 			}
 			function onYouTubeIframeAPIReady() {
-				console.log('BPDEBUG onYouTubeIframeAPIReady');
 				if (altspace.getUser) {
 					altspace.getUser().then(setupSync);
 				}
@@ -124,7 +118,7 @@
 					setupSync({isModerator: false});
 				}
 			}
-			console.log('BPDEBUG loaded');
 		</script>
+		<script src="//www.youtube.com/iframe_api"></script>
 	</body>
 </html>
