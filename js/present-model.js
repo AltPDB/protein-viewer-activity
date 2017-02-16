@@ -224,6 +224,7 @@ function setupEnclosure(done)
 				altspace.getDocument().then(function (document) {
 					document.scale.set(1, 1, 1);
 					document.position.set(4.5, 1.7, -8.5);
+					document.material.transparent = true;
 					root.position.set(4.5, 0, -8.5);
 					root.scale.multiplyScalar(enclosure.pixelsPerMeter);
 					root.rotation.set( -Math.PI/2, 0, 0 );
