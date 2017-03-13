@@ -156,12 +156,16 @@
 			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbsp View other proteins using the 4 character PDB ID</a>
 
 		</div>
+		
+		<script> document.getElementById("mol").value = '5HVX'; </script>
+		
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
 			<span>Protein Data Bank ID: </span>
-			<input name='mol' type='text' value='5HVX'></input>
+			<input name='mol' type='text'> </input> <!-- value='5HVX'></input> -->
 			<input type='submit' value='Go'></input>
 		</form>
-		|
+		document.getElementById("mytext").value = "My value";
+
 		<div class='bar'>
 			Show:
 			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
