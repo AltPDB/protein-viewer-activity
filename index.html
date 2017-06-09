@@ -2,10 +2,19 @@
 <html>
 	<head>
 		<title>Protein Viewer Activity - AltPDB</title>
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		  ga('create', 'UA-97468512-1', 'auto');
+		  ga('send', 'pageview');
+		</script>
+		<title>Protein Viewer - AltPDB</title>
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 		<script src="lib/three.r74.min.js"></script>
 		<script src="lib/altspace-0.16.0.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min.js"></script>
-		<script src="//cdn.rawgit.com/niklasvh/html2canvas/v0.5.0-beta4/dist/html2canvas.min.js"></script>
 		<script src="lib/glTF-loader.js"></script>
 		<script src="js/PDBLoaderImproved.js"></script>
 		<script src="js/utils.js"></script>
@@ -16,6 +25,19 @@
 				background-color: black;
 				font-size: 16px;
 				font-weight: bold;
+				display: none;
+			}
+
+			.initialized .bar {
+				display: block;
+			}
+
+			#other {
+				display: none;
+			}
+
+			.isDesktop.isModerator #other {
+				display: inline;
 			}
 
 			.item {
@@ -50,6 +72,7 @@
 
 			body {
 				overflow: hidden;
+				font: 12pt sans-serif;
 			}
 
 			.info {
@@ -132,21 +155,23 @@
 	</head>
 	<body>
 		<div class='bar'>
-			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>Example: Adaptive MHC Class I (2VAA) with virus fragment being held between helixes</a><br>
+			<a href='?molecule=2VAA' onclick='return toggleOptions("molecule","2VAA");' class='item' id='2VAA'>Example: MHC Class I with virus fragment being held between helixes (PDB=2VAA)</a><br>
 			<!-- <a href='?molecule=3UTQ' onclick='return toggleOptions("molecule","3UTQ");' class='item' id='3UTQ'>3UTQ</a> -->
 			<!-- <a href='?molecule=4X5W' onclick='return toggleOptions("molecule","4X5W");' class='item' id='4X5W'>4X5W</a> -->
-			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>Example: Adaptive MHC Class II Antigen Presenting Complex with virus fragment and T-Cell Receptor (1J8H)</a><br>
-			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>Example: Innate Toll-like Receptor with DNA fragment being recognized (3WPG)</a><br>
+			<a href='?molecule=1J8H' onclick='return toggleOptions("molecule","1J8H");' class='item' id='1J8H'>Example: MHC Class II Antigen Presenting Complex with virus fragment and T-Cell Receptor (PDB=1J8H)</a><br>
+			<a href='?molecule=3WPG' onclick='return toggleOptions("molecule","3WPG");' class='item' id='3WPG'>Example: Innate (TLR) with DNA fragment being recognized (PDB=3WPG)</a><br>
 			<!-- <a href='?molecule=1AQD' onclick='return toggleOptions("molecule","1AQD");' class='item' id='1AQD'>1AQD</a>  -->
 			<!-- <a href='?molecule=2WBJ' onclick='return toggleOptions("molecule","2WBJ");' class='item' id='2WBJ'>2WBJ</a> -->
-			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbsp or click <u>here</u> to load directly from Protein Data Bank (Look up 4 character PDB ID with the search box on the web page behind you.)</a>
+			<a href='javascript:;' onclick='return toggleCustomDialog();' class='item' id='other'>&nbsp View other proteins using the 4 character PDB ID</a>
 
 		</div>
+				
 		<form onsubmit='return constructUrl(event);' style='display:none;'>
 			<span>Protein Data Bank ID: </span>
-			<input name='mol' type='text' value='5B32'></input>
+			<input name='mol' type='text' value='5B32'></input> 
 			<input type='submit' value='Go'></input>
 		</form>
+
 		<div class='bar'>
 			Show:
 			<a href='javascript:;' onclick='return toggleOptions("noribbon");' class='item' id='ribbon'>Ribbon</a>
@@ -160,7 +185,7 @@
 		</div>
 		<div style='text-align: center;' id='loading'>
 			<img src='img/benzene-small.gif' alt='Loading'/>
-			<h1>Loading...</h1>
+			<h1>Loading...V2a</h1>
 		</div>
 		<div id='2VAA-info' class='info'>
 			<h1>Your Immune System<h1>
@@ -171,5 +196,26 @@
 		</div>
 		<script src="js/present-model.js"></script>
 		<script src="js/present-info.js"></script>
+		<script src="js/pdb-popup.js"></script>
+		<script src="js/threejs-buttons.js"></script>
+		<script>
+			if (altspace.getUser) {
+				altspace.getUser().then(function (user) {
+					var $body = $(document.body);
+					if (user.isModerator) { $body.addClass('isModerator'); }
+					var isAndroid = /mobile/i.test(navigator.userAgent);
+					if (isAndroid) {
+						$body.addClass('isAndroid');
+					}
+					else {
+						$body.addClass('isDesktop');
+					}
+					$body.addClass('initialized');
+					addThreeJsButtons(user, isAndroid);
+					addInfoImage();
+					addPdbPopup(user, isAndroid);
+				}).catch(function (error) { console.error(error); });
+			}
+		</script>
 	</body>
 </html>
